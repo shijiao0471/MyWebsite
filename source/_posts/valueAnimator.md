@@ -2,7 +2,7 @@
 title: 浅谈 Android ValueAnimator
 ---
 
-Android 3.0之后动画氛围两种
+Android 3.0之后动画分为两种
 1. View Animation
   - Tween Animation
 
