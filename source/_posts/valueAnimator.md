@@ -1,5 +1,5 @@
 ---
-title:浅谈 Android ValueAnimator
+title: 浅谈 Android ValueAnimator
 ---
 
 Android 3.0之后动画氛围两种
