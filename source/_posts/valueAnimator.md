@@ -81,6 +81,17 @@ public void paowuxian(View view){
   它的第一个参数fraction就是前面说到的时间因子，它是一个从0-1之间变化的值，还有startValue参数和endValue参数，
   这些参数结合起来通过各种各样的计算方式，就可以产生所有我们想要产生的值。这里不光能产生普通的数据结构，
   通过泛型同样可以定义更加复杂的数据结构。
+
+  还有就是可以自定义一个TypeEvaluator 通过ofObject直接使用
+  ```
+    Point point1 = new Point(0, 0);
+    Point point2 = new Point(300, 300);
+    ValueAnimator anim = ValueAnimator.ofObject(new PointEvaluator(), point1, point2);
+  ```
+
+  这里谈一下对XXXAnimator.ofXXX()方法的理解，android自带的常用方法有ofFloat和ofInt，接受的参数分别是
+  float类型和int类型，那么如果我想让动画在两个point之间运动，这时候我们就需要调用ofObject方法了，直接调用
+  ofObject方法ValueAnimator内部并没有相对于的解析，所以我们需要自定义一个TypeEvaluator，并重写evaluate方法。
 - setInterpolator
   这个方法是给ValueAnimator设置一个差值器，说简单点就是控制从0-1的变化规律，在说的详细一点就是控制从0-1这条线每个点的斜率
   上面用到了LinearInterpolator()，其实就是一条直线（斜率是一定的）。其他插值器还有：
