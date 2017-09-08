@@ -28,7 +28,7 @@ Handler mHandler = new Handler() {
 ```
 这样写其实AndroidStudio 会抛出一个警告，说你这样写会造成内存泄漏。为什么这样的写法会造成内存泄漏呢？
 `Java中非静态内部类会持有外部类的引用`。如果内部类的生命周期比外部类长，那么外部类就容易造成内存泄漏。
-回到上面的代码，我们定义的mHandler对象其实是一个匿名类，他会隐式的持有外部类的引用，他可以使用外部类的成员变量
+回到上面的代码，我们定义的mHandler对象其实是一个匿名类对象，他会隐式的持有外部类的引用，他可以使用外部类的成员变量
 ，这样就佐证了之前说的非静态内部类会持有外部类的引用。
 这时候如果子线程使用mHandler将message发送到MessageQueue中并等待执行的过程长，如果这时候activity已经执行了finish方法
 我们希望的是activity在执行了onDestroy方法后，activity的相关资源被销毁回收，但由于mHandler隐式的持有activity的引用
@@ -66,6 +66,15 @@ mHandler.removeMessages();
 mHandler.removeCallbacksAndMessages();
 ```
 
+3. （推荐使用） 让mHandler对象是一个普通对象而非匿名内部类对象。
+```
+private Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            return false;
+        }
+    });
+```
 
 ### Android Handler 消息循环机制源码分析:
 
