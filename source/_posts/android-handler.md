@@ -30,6 +30,7 @@ Handler mHandler = new Handler() {
 `Java中非静态内部类会持有外部类的引用`。如果内部类的生命周期比外部类长，那么外部类就容易造成内存泄漏。
 回到上面的代码，我们定义的mHandler对象其实是一个匿名类对象，他会隐式的持有外部类的引用，他可以使用外部类的成员变量
 ，这样就佐证了之前说的非静态内部类会持有外部类的引用。
+Message 内的target 对象就是一个Handler，Message持有了handler，handler又持有了activity。
 这时候如果子线程使用mHandler将message发送到MessageQueue中并等待执行的过程长，如果这时候activity已经执行了finish方法
 我们希望的是activity在执行了onDestroy方法后，activity的相关资源被销毁回收，但由于mHandler隐式的持有activity的引用
 ，那么将导致activity对象无法被gc掉，activity相关资源与组件也无法被回收，造成内存泄露。
